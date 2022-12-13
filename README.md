@@ -7,14 +7,18 @@
 
 # Usage
 
-To setup the database you need run the follow command
+To setup the dependencies you need run the follow command
 ```shell
 docker-compose up
 ```
 
-After that you need run the follow command to run the application
+After that you'll need run the follow command to run the application
 ``` 
 go run cmd/main.go -file="PATH_RELATIVE/ports.json"
 ```
+Default value for the flag `-file` is `ports.json` and the file need be in the root of your application
 
-The default value to -file is `ports.json` and the file need be in the root of your application
+To run the tests can you execute that command
+```shell
+go test -v ./...
+```
