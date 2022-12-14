@@ -5,6 +5,7 @@ import (
 	"errors"
 	"flag"
 	"github.com/guil95/ports/config/storages/mongo"
+	"go.uber.org/zap"
 
 	"github.com/guil95/ports/config/logger"
 	"github.com/guil95/ports/internal/ports"
@@ -12,7 +13,6 @@ import (
 	"github.com/guil95/ports/internal/ports/infra/repository"
 	"github.com/guil95/ports/internal/ports/usecase"
 	_ "github.com/joho/godotenv/autoload"
-	"go.uber.org/zap"
 )
 
 var file string
@@ -34,16 +34,23 @@ func main() {
 	portChan := make(chan ports.Ports)
 	errChan := make(chan error)
 
-	go func() {
+	go func(errChan chan error) {
 		err := uc.SavePorts(ctx, file, portChan, errChan)
 		if err != nil {
+			errChan <- err
+		}
+	}(errChan)
+
+	for {
+		select {
+		case err := <-errChan:
 			if errors.Is(err, ports.EofError{}) {
 				zap.S().Info("end of save ports")
 				return
 			}
 
-			zap.S().Error(err)
+			zap.L().Error("error to save or update ports", zap.Any("error", err))
 			return
 		}
-	}()
+	}
 }
