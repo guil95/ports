@@ -41,6 +41,8 @@ func main() {
 		}
 	}(errChan)
 
+	zap.S().Info("starting to save ports")
+
 	for {
 		select {
 		case err := <-errChan:
