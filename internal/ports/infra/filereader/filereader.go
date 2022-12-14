@@ -2,7 +2,6 @@ package filereader
 
 import (
 	"encoding/json"
-	"errors"
 	"io"
 	"os"
 
@@ -36,7 +35,7 @@ func (rf *readFile) ReadFileStream(path string, port chan ports.Ports, quit chan
 
 		_, err = dec.Token()
 		if err == io.EOF {
-			quit <- errors.New("end file")
+			quit <- ports.EofError{}
 		}
 		if err != nil {
 			quit <- err

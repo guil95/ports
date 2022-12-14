@@ -31,14 +31,19 @@ func main() {
 
 	uc := usecase.NewUseCase(repository.NewMongo(mongo.Connect(ctx)), filereader.NewReadFile())
 
-	err := uc.SavePorts(ctx, file)
-	if err != nil {
-		if errors.Is(err, ports.EofError{}) {
-			zap.S().Info("end of save ports")
+	portChan := make(chan ports.Ports)
+	errChan := make(chan error)
+
+	go func() {
+		err := uc.SavePorts(ctx, file, portChan, errChan)
+		if err != nil {
+			if errors.Is(err, ports.EofError{}) {
+				zap.S().Info("end of save ports")
+				return
+			}
+
+			zap.S().Error(err)
 			return
 		}
-
-		zap.S().Error(err)
-		return
-	}
+	}()
 }
