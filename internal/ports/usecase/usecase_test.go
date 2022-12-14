@@ -51,7 +51,7 @@ func TestUseCase(t *testing.T) {
 func getIdempotencyID(v interface{}) string {
 	buf := bytes.Buffer{}
 	enc := gob.NewEncoder(&buf)
-	_ = enc.Encode(ports.Ports{City: "Maringá"})
+	_ = enc.Encode(v)
 
 	return uuid.NewSHA1(uuid.Nil, buf.Bytes()).String()
 }
