@@ -29,7 +29,7 @@ func (uc *useCase) SavePorts(
 			err := uc.saveOrUpdate(ctx, &p)
 			if err != nil {
 				zap.L().Error("error to save or update port", zap.Any("error", err))
-				errChan <- err
+				return err
 			}
 		case err := <-errChan:
 			return err
