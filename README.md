@@ -1,7 +1,7 @@
 # Ports
 
 [![build](https://github.com/guil95/ports/actions/workflows/app.yml/badge.svg)](https://github.com/guil95/ports/actions/workflows/app.yml)
-[![codecov](https://codecov.io/github/guil95/ports/branch/main/graph/badge.svg?token=712UK1A1YN)](https://codecov.io/github/guil95/ports)
+[![codecov](https://img.shields.io/codecov/c/github/guil95/ports)](https://codecov.io/github/guil95/ports)
 
 ![ports](.github/images/ports.gif)
 
